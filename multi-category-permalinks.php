@@ -41,7 +41,7 @@ register_deactivation_hook( __FILE__, 'mcp_flush_rewrite_rules' );
  * @param WP_Post_Object $post      The post in question.
  * @param boolean        $leavename Whether to keep the post name.
  */
-function mcp_modify_post_link( $permalink, $post, $leavename ) {
+function mcp_modify_post_link( $permalink, $post ) {
     $home_url     = get_home_url();
     // Get the list of terms (categories) attached to this post.
     $categories   = get_the_terms( $post->ID, 'category' );
@@ -67,11 +67,10 @@ function mcp_modify_post_link( $permalink, $post, $leavename ) {
             }
         }
     }
-    // $permalink = str_replace( $home_url, $home_url . $url_base, $permalink );
     $permalink = $home_url . $url_base . '/' . $post->post_name . '/';
     return $permalink;
 }
-add_filter( 'post_link', 'mcp_modify_post_link', 10, 3 );
+add_filter( 'post_link', 'mcp_modify_post_link', 10, 2 );
 
 /**
  * Add a rewrite rule allowing multiple prefixes in URL structure.
